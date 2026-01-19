@@ -28,21 +28,15 @@
 import /init.recovery.qcom_decrypt.rc
 
 on init
-setprop prepdecrypt.loglevel 2
+    setprop prepdecrypt.loglevel 2
+    exec u:r:recovery:s0 -- /system/bin/patchfstab.sh
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+
+    mkdir /firmware
+    mount vfat /dev/block/bootdevice/by-name/modem /firmware ro
     
 on boot
     start health-hal-2-0
-
-on property:twrp.super.symlinks_created=true
-    start patchfstab
-
-service patchfstab /system/bin/patchfstab.sh
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0

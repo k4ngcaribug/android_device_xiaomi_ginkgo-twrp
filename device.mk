@@ -12,3 +12,6 @@ TARGET_OTA_ASSERT_DEVICE := ginkgo,willow
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
+
+# Fastbootd
+TW_INCLUDE_FASTBOOTD := true
